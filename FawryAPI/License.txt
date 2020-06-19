@@ -1,0 +1,1 @@
+﻿This library has been made by a third-party and NOT by fawry. Anyone who uses it may download the source code and adjust it accordingly. 
