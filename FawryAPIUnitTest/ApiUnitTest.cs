@@ -17,22 +17,31 @@ namespace FawryAPIUnitTest
     public class ApiUnitTest
     {
         private const string BaseApiUri = "https://atfawry.fawrystaging.com";
-        private const string MerchantCode = "1tSa6uxz2nQsUE4afeg7uA==";
-        private const string SecurityKey = "31d932eb514841c8ab35eb455012a53c";
+        private const string MerchantCode = "YOUR_TEST_MERCHAT_CODE";
+        private const string SecurityKey = "YOUR_SECURITY_KEY";
+        private const string PaymentDescription = "YOUR_PAYMENT_DESCRIPTION";
+        private const int MerchantReferenceNumber = 551981;
+        private const double PurchaseAmount = 200.0;
 
+        private ChargeItem SampleItem = new ChargeItem
+        {
+            Description = "YOUR_ITEM_DESCRIPTION",
+            Price = 250,
+            ItemId = 23234387,
+        };
         private readonly CustomerInfo _customer = new CustomerInfo
         (
             Guid.NewGuid().ToString(),
-            "01005458821",
-            "ahmed.samy@el-eng.menofia.edu.eg"
+            "CUSTOMER_MOBILE",
+            "CUSTOMER_EMAIL"
         );
 
         private readonly CustomerPaymentCard _customerPaymentCard = new CustomerPaymentCard
         (
-            "5123456789012346",
-            "100",
-            "05",
-            "21"
+            "CARD_NUMBER",
+            "CVV",
+            "MONTH",
+            "YEAR"
         );
 
         [TestMethod]
@@ -82,15 +91,9 @@ namespace FawryAPIUnitTest
 
                 var client = new FawryApiClient(MerchantCode, SecurityKey, BaseApiUri);
                 var cardTokenResponse = await client.CreateCreditCardTokenTask(_customerPaymentCard, _customer);
-                var chargeResponse = await client.CreateChargeTask(198198741, _customer,
-                    new PaymentInfo(PaymentMethod.Card, 350, "œÊ—…  ‰„Ì… ﬁœ—«  √⁄÷«¡ ÂÌ∆… «· œ—Ì”", cardTokenResponse.Card.Token),
-                    new[]{
-                        new ChargeItem
-                            {
-                                Description = "»—‰«„Ã «·œ—«”… «·–« Ì… ·„ƒ””«  «· ⁄·Ì„ «·⁄«·Ì",
-                                Price = 350,
-                                ItemId = 234234987,
-                            },
+                var chargeResponse = await client.CreateChargeTask(MerchantReferenceNumber, _customer,
+                    new PaymentInfo(PaymentMethod.Card, PurchaseAmount, PaymentDescription, cardTokenResponse.Card.Token),
+                    new[]{SampleItem,
                     });
                 Assert.AreEqual(chargeResponse.StatusCode, 200);
             }
@@ -105,18 +108,12 @@ namespace FawryAPIUnitTest
         {
             try
             {
-                _customer.Mobile = "01226610849";
 
                 var client = new FawryApiClient(MerchantCode, SecurityKey, BaseApiUri);
-                var chargeResponse = await client.CreateChargeTask(99841813, _customer,
-                    new PaymentInfo(PaymentMethod.PayAtFawry, 450, "œÊ—…  ‰„Ì… ﬁœ—«  √⁄÷«¡ ÂÌ∆… «· œ—Ì”", paymentExpiryDateTime: DateTime.Now.AddDays(1)),
+                var chargeResponse = await client.CreateChargeTask(MerchantReferenceNumber, _customer,
+                    new PaymentInfo(PaymentMethod.PayAtFawry, PurchaseAmount, PaymentDescription, paymentExpiryDateTime: DateTime.Now.AddDays(1)),
                     new[]{
-                        new ChargeItem
-                        {
-                            Description = "»—‰«„Ã «” Œœ«„ ﬁÊ«⁄œ «·»Ì«‰«  «·⁄«·„Ì…",
-                            Price = 250,
-                            ItemId = 23234387,
-                        },
+                        SampleItem,
                     });
                 Console.WriteLine(chargeResponse.Serialize());
                 Assert.AreEqual(chargeResponse.StatusCode, 200);
@@ -132,7 +129,7 @@ namespace FawryAPIUnitTest
             try
             {
                 var client = new FawryApiClient(MerchantCode, SecurityKey, BaseApiUri);
-                var chargeResponse = await client.RefundTask(946592686, 150);
+                var chargeResponse = await client.RefundTask(MerchantReferenceNumber, PurchaseAmount);
                 Console.WriteLine(chargeResponse.Serialize());
                 Assert.AreEqual(chargeResponse.StatusCode, 200);
             }
@@ -147,7 +144,7 @@ namespace FawryAPIUnitTest
             try
             {
                 var client = new FawryApiClient(MerchantCode, SecurityKey, BaseApiUri);
-                var chargeResponse = await client.CheckPaymentStatusTask("128157");
+                var chargeResponse = await client.CheckPaymentStatusTask(MerchantReferenceNumber.ToString());
                 Console.WriteLine(chargeResponse.Serialize());
                 Assert.AreEqual(chargeResponse.StatusCode, 200);
             }
@@ -182,6 +179,7 @@ namespace FawryAPIUnitTest
                                     }
                                 ]
                             }";
+                // These are sample data and an actual response need to be tested with actual security key provided by Fawry for the test to succeed
                 var notification = notificationObject.Deserialize<FawryV2NotificationResponse>();
                 var isVerified = notification.Verify(SecurityKey);
             }
@@ -195,22 +193,7 @@ namespace FawryAPIUnitTest
         {
             try
             {
-                //IEnumerable<KeyValuePair<string, string>> notificationDictionary = new[]
-                //{
-                //    new KeyValuePair<string, string>("MerchantRefNo","128160"),
-                //    new KeyValuePair<string, string>("FawryRefNo","946619171"),
-                //    new KeyValuePair<string, string>("OrderStatus","NEW"),
-                //    new KeyValuePair<string, string>("Amount","150.0"),
-                //    new KeyValuePair<string, string>("MessageSignature","8B93D5F78F06909ACBCBEC9DF2FA517E"),
-                //};
-                //IEnumerable<KeyValuePair<string, string>> notificationDictionary = new[]
-                //{
-                //    new KeyValuePair<string, string>("MerchantRefNo","128151"),
-                //    new KeyValuePair<string, string>("FawryRefNo","946524382"),
-                //    new KeyValuePair<string, string>("OrderStatus","PAID"),
-                //    new KeyValuePair<string, string>("Amount","500.0"),
-                //    new KeyValuePair<string, string>("MessageSignature","9CABFDCF35EBBB195685ED4AC6B56C31"),
-                //};
+
                 IEnumerable<KeyValuePair<string, string>> notificationDictionary = new[]
                 {
                     new KeyValuePair<string, string>("MerchantRefNo","128161"),
@@ -220,9 +203,10 @@ namespace FawryAPIUnitTest
                     new KeyValuePair<string, string>("MessageSignature","4E8EE4A2C3B09946CA0717E3E91845B9"),
                 };
 
+                // These are sample data and an actual response need to be tested with actual security key provided by Fawry for the test to succeed
 
                 var (isVerified, resultNotification) = PaymentFlowUtilities.VerifyV1Callback(notificationDictionary, SecurityKey);
-                //Debug.WriteLine(resultNotification.Serialize());
+                Debug.WriteLine(resultNotification.Serialize());
                 Assert.IsTrue(isVerified);
             }
             catch (Exception e)
@@ -230,87 +214,6 @@ namespace FawryAPIUnitTest
                 Assert.Fail(e.Message);
             }
         }
-        [TestMethod]
-        public void Encrypt()
-        {
-            try
-            {
-                var key = "NA&UW@MPemxb97yGb";
-                Console.WriteLine(key.Encrypt());
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-        }
-        [TestMethod]
-        public void Decrypt()
-        {
-            try
-            {
-                var key = "6dr65hAQaGh5A6XqkOIncXSH1YmD9M76wWSAhhCLVmE8u+whK/GU5+4ReJQ9MI2SSaqikji+SozpWJYN/xL1";
-                Console.WriteLine(key.Decrypt());
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-        }
-    }
-    public static class Utilities
-    {
-        private static string _sharedSecret = "2SFQAxVrewJaWRTk*PPBqjQjPRNYvSC6!gpGqe48zUkAedgkV^tu3h5p3C8ju&h#EY3FH";
-
-        public static string Encrypt(this string clearText)
-        {
-            var clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (var encryptor = Aes.Create())
-            {
-                var salt = Convert.FromBase64String("6dr65hAQaGh5A6XqkOIn");
-                var iv = salt.Take(15).ToArray();
-                var pdb = new Rfc2898DeriveBytes(_sharedSecret, iv);
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (var ms = new MemoryStream())
-                {
-                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    clearText = Convert.ToBase64String(iv) + Convert.ToBase64String(ms.ToArray());
-                }
-            }
-            return clearText;
-        }
-        public static string Decrypt(this string cipherText)
-        {
-            cipherText = cipherText.Trim('"');
-            var IV = Convert.FromBase64String(cipherText.Substring(0, 20));
-            cipherText = cipherText.Substring(20).Replace(" ", "+");
-            var cipherBytes = Convert.FromBase64String(cipherText);
-            using (var encryptor = Aes.Create())
-            {
-                var pdb = new Rfc2898DeriveBytes(_sharedSecret, IV);
-                if (encryptor != null)
-                {
-                    encryptor.Key = pdb.GetBytes(32);
-                    encryptor.IV = pdb.GetBytes(16);
-                    using (var ms = new MemoryStream())
-                    {
-                        using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                        {
-                            cs.Write(cipherBytes, 0, cipherBytes.Length);
-                            cs.Close();
-                        }
-
-                        cipherText = Encoding.Unicode.GetString(ms.ToArray());
-                    }
-                }
-            }
-            return cipherText;
-        }
-
     }
 
 }
