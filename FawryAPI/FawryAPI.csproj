@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>sOlOnXPL</Authors>
+    <Company>sOlOnXPL</Company>
+    <Description>Library to help communicate with Fawry API</Description>
+    <Copyright>Copyright © sOlOnXPL</Copyright>
+    <DebugType>Full</DebugType>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <PackageId>sOlOnXPL.FawryAPI</PackageId>
+    <RootNamespace>SolonXpl.FawryAPI</RootNamespace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Product>FawryAPI Helper</Product>
+    <PackageReleaseNotes>Support for Fawry Notification Object Verification</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Version>1.0.8</Version>
+    <LangVersion>latest</LangVersion>
+    <UserSecretsId>cd9c4bd3-9182-48a0-b9e0-81d5ca5df92f</UserSecretsId>
+    <AssemblyName>SolonXpl.FawryAPI</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+  </ItemGroup>
+
+</Project>
