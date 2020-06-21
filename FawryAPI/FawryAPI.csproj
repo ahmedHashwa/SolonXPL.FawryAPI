@@ -14,7 +14,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Product>FawryAPI Helper</Product>
     <PackageReleaseNotes>Support for Fawry Notification Object Verification</PackageReleaseNotes>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Version>1.0.9</Version>
     <LangVersion>latest</LangVersion>
     <UserSecretsId>cd9c4bd3-9182-48a0-b9e0-81d5ca5df92f</UserSecretsId>
