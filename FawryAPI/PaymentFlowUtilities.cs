@@ -103,7 +103,6 @@ namespace SolonXpl.FawryAPI
                 merchantRefNumber,
                 customer = new JRaw(customer.Serialize()),
                 order = new JRaw(order.Serialize(new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Converters = new List<JsonConverter>() { new CustomIntDoubleConverter() } })),
-                expiryHours = order.Expiry,
                 language = lang == ChargeRequestLanguage.Ar ? "ar-eg" : "en-gb"
             };
             var json = chargeRequest.SignedSerialize(r => new
@@ -112,7 +111,7 @@ namespace SolonXpl.FawryAPI
                 r.merchantRefNumber,
                 customerProfileId = customer.ProfileId,
                 itemsHash = order.OrderItems.Select(o => $"{o.ProductSku}{o.Quantity}{o.Price:F2}").Join(""),
-                r.expiryHours,
+                expiryHours=order.Expiry,
                 secureKey,
             }, serializerSettings: null);
 

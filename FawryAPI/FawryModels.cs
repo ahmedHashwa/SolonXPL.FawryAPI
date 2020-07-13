@@ -261,7 +261,7 @@ namespace SolonXpl.FawryAPI
     }
     public enum OrderStatus
     {
-        New, Paid, Canceled, Delivered, Refunded, Expired
+        New, Paid, Canceled, Delivered, Refunded, Expired,Failed
     }
     public enum PaymentStatus
     {
