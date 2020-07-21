@@ -13,9 +13,10 @@
     <RootNamespace>SolonXpl.FawryAPI</RootNamespace>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Product>FawryAPI Helper</Product>
-    <PackageReleaseNotes>Add support to generate multipe Fawry buttons on the same page.</PackageReleaseNotes>
+    <PackageReleaseNotes>Add support to generate multipe Fawry buttons on the same page.
+Small Fixes internally.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>1.0.12</Version>
+    <Version>1.0.13</Version>
     <LangVersion>latest</LangVersion>
     <UserSecretsId>cd9c4bd3-9182-48a0-b9e0-81d5ca5df92f</UserSecretsId>
     <AssemblyName>SolonXpl.FawryAPI</AssemblyName>
