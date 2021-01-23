@@ -3,4 +3,4 @@ This library supports different methods required to use Fawry API to be used wit
 
 
 Fawry API documentation can be reviewed here 
-https://atfawry.com/developer-guide/intro
+https://developer.fawrystaging.com/docs/express-checkout/self-hosted-checkout
