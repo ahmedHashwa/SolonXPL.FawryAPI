@@ -12,7 +12,7 @@ namespace SolonXpl.FawryAPI
     public class FawryV1NotificationResponse
     {
         public string MerchantRefNo { get; set; }
-        public int FawryRefNo { get; set; }
+        public long FawryRefNo { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public float Amount { get; set; }
         public string MessageSignature { get; set; }
