@@ -222,7 +222,7 @@ namespace SolonXpl.FawryAPI
     public class FawryChargeResponse
     {
         public int MerchantRefNumber { get; set; }
-        public int FawryRefNumber { get; set; }
+        public long FawryRefNumber { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public string Signature { get; set; }
     }
